@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
-from setuptools import setup
+from setuptools import setup, find_packages
+
 
 setup(name='pypw', 
 	description='Generates a random password.',
@@ -8,10 +9,11 @@ setup(name='pypw',
 	author='Kasper Jacobsen',
 	author_email='k@three65.org',
 	url='https://github.com/Dinoshauer/PyPW',
-	packages=['pypw'],
+	packages=find_packages(),
 	entry_points={
 		'console_scripts': [
 			'pypw = pypw.pypw:main']
 	},
+	license='MIT',
 	install_requires=[]
 )
