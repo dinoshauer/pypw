@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-
 from setuptools import setup, find_packages
 
 
@@ -15,5 +14,6 @@ setup(name='pypw',
 			'pypw = pypw.pypw:main']
 	},
 	license='MIT',
+	long_description=open('README.rst').read(),
 	install_requires=[]
 )
