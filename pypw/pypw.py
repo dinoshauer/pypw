@@ -8,10 +8,10 @@ from collections import OrderedDict
 
 class RandomPassword:
 	def __init__(self, sequence=None, mixedCases=True):
-		self.sequence = sequence
-		self.mixedCases = mixedCases
 		points = {50: 'excellent', 15: 'good', 10: 'less than good', 5: 'medium', 0: 'bad'}
 		self.ranking = OrderedDict(reversed(sorted(points.items())))
+		self.sequence = sequence
+		self.mixedCases = mixedCases
 		self.phonetic_mappings = {
 			'a': ['alfa', 'adam', 'arnold', 'alice'],
 			'b': ['beta', 'ben', 'benjamin', 'boo'],
@@ -53,7 +53,7 @@ class RandomPassword:
 		return [c.upper() if self.randomBool() and c.isalnum() else c.lower() for c in sequence]
 
 
-	def generateRandomPW(self, length):
+	def generateRandomPW(self, length=None):
 		if length is None:
 			length = 12
 
@@ -84,7 +84,7 @@ class RandomPassword:
 		return {'string': result, 'ranking': strength[0], 'score': strength[1], 'phonetic': phonetic}		
 
 
-	def generatePw(self):
+	def generatePW(self):
 		salt = [c for c in self.sequence]
 		shuffle(salt)
 		if self.mixedCases:
@@ -128,6 +128,7 @@ class RandomPassword:
 
 def main():
 	import argparse
+
 	parser = argparse.ArgumentParser(description='Generate random Password')
 	parser.add_argument('-s', '--sequence', type=str, help='The sequence to generate the random string from. Enclose the string in double quotes if it contains non-alphanumeric characters', required=False)
 	parser.add_argument('--mixed', dest='mixed', action='store_true', help='Generate random casing', required=False)
@@ -143,7 +144,7 @@ def main():
 
 	if sequence is not None:
 		pw = RandomPassword(sequence, mixedCases=mixed)
-		result = pw.generatePw()
+		result = pw.generatePW()
 	else:
 		pw = RandomPassword()
 		result = pw.generateRandomPW(length=randomLength)
