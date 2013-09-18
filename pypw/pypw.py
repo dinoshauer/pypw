@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 
+import sys
 from random import shuffle
 from random import randint
 from collections import OrderedDict
@@ -53,26 +54,43 @@ class RandomPassword:
 		return [c.upper() if self.randomBool() and c.isalnum() else c.lower() for c in sequence]
 
 
-	def generateRandomPW(self, length=None):
+	def generateRandomPW(self, length=None, alpha=True, digits=True, symbols=True):
 		if length is None:
 			length = 12
 
 		sequence = list()
+		params = 0
 
-		counter = 0
-		while counter <= (length / 3):
-			sequence.append(self.possible_alpha[randint(0, len(self.possible_alpha) - 1)])
-			counter += 1
+		if alpha:
+			params += 1
+		if digits:
+			params += 1
+		if symbols:
+			params += 1
 
-		counter = 0
-		while counter <= (length / 3):
-			sequence.append(self.possible_num[randint(0, len(self.possible_num) - 1)])
-			counter += 1
+		try:
+			divider = length / params
+		except ZeroDivisionError:
+			print 'ERROR: Cannot divide by 0, provide atleast one of either alpha, digits or symbols.'
+			sys.exit(0)
 
-		counter = 0
-		while counter <= (length / 3):
-			sequence.append(self.possible_meta[randint(0, len(self.possible_meta) - 1)])
-			counter += 1
+		if alpha:
+			counter = 0
+			while counter <= divider:
+				sequence.append(self.possible_alpha[randint(0, len(self.possible_alpha) - 1)])
+				counter += 1
+
+		if digits:
+			counter = 0
+			while counter <= divider:
+				sequence.append(self.possible_num[randint(0, len(self.possible_num) - 1)])
+				counter += 1
+
+		if symbols:
+			counter = 0
+			while counter <= divider:
+				sequence.append(self.possible_meta[randint(0, len(self.possible_meta) - 1)])
+				counter += 1
 
 		shuffle(sequence)
 		if self.mixedCases:
@@ -134,20 +152,29 @@ def main():
 	parser.add_argument('--mixed', dest='mixed', action='store_true', help='Generate random casing', required=False)
 	parser.add_argument('--not-mixed', dest='mixed', action='store_false', help='Do NOT generate random casing', required=False)
 	parser.add_argument('-l', '--length', type=int, help='Generate a random password with l-length. Default: 12')
+	parser.add_argument('--no-digits', dest='digits', action='store_false', help='Do not use digits in random password')
+	parser.add_argument('--no-letters', dest='letters', action='store_false', help='Do not use alphabetical letters in random password')
+	parser.add_argument('--no-symbols', dest='symbols', action='store_false', help='Do not use symbols in random password')
 	parser.set_defaults(mixed=True)
+	parser.set_defaults(digits=True)
+	parser.set_defaults(letters=True)
+	parser.set_defaults(symbols=True)
 
 	args = vars(parser.parse_args())
 
 	sequence = args['sequence']
 	mixed = args['mixed']
 	randomLength = args['length']
+	digits = args['digits']
+	alpha = args['letters']
+	symbols = args['symbols']
 
 	if sequence is not None:
 		pw = RandomPassword(sequence, mixedCases=mixed)
 		result = pw.generatePW()
 	else:
 		pw = RandomPassword()
-		result = pw.generateRandomPW(length=randomLength)
+		result = pw.generateRandomPW(length=randomLength, alpha=alpha, digits=digits, symbols=symbols)
 	for k, v in result.items():
 		print '%s: %s' % (k, v)
 

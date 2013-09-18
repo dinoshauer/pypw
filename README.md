@@ -36,10 +36,13 @@ Can be used as a stand-alone CLI program or imported into projects.
 
 			returns: List of characters
 
-		generateRandomPW(length=None)
+		generateRandomPW(length=None, alpha=True, digits=True, symbols=True)
 			- Generate a random password chosen by PyPW
 
 			length(int): Defines how many characters you want in the generated password
+			alpha(bool): Choose to use alphabetical characters in randomly generated password or not
+			digits(bool): Choose to use digits (0-9) in randomly generated password or not
+			symbols(bool): Choose to use symbols in randomly generated password or not
 
 			returns: Dict with result, score, ranking and phonetic
 
