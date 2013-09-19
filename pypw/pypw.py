@@ -5,7 +5,7 @@ import sys
 from random import shuffle
 from random import randint
 from collections import OrderedDict
-
+from string import punctuation, lowercase
 
 class RandomPassword:
 	def __init__(self, sequence=None, mixedCases=True):
@@ -41,9 +41,9 @@ class RandomPassword:
 			'y': ['yankee', 'yolanda', 'yoav', 'yosef'],
 			'z': ['zulu', 'zach', 'zarah'],
 		}
-		self.possible_alpha = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+		self.possible_alpha = lowercase
 		self.possible_num = [str(i) for i in xrange(0, 9)]
-		self.possible_meta = ["!", "\"", "#", "%", "&", "/", "(", ")", "=", "?", "`", "@", "$", "{", "[", "]", "}", "~", "^", "'", "*", "_", "-", ":", ".", ",", ";", "<", ">", "\\", "|", "+"]
+		self.possible_meta = punctuation
 
 
 	def randomBool(self):
