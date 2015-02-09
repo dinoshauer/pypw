@@ -65,4 +65,3 @@ API:
             - Calculate the strength of the password based on length, digits, symbols and casing
 
             returns: Tuple
-
